@@ -15,7 +15,7 @@ BLISlab: A Sandbox for Optimizing GEMM
 ├── sourceme.sh
 ├── makefile
 ├── dgemm
-│   ├── bl_dgemm_ref.c
+│   ├── bl_dgemm_ref.c // reference implementation if BLISLAB_USE_BLAS=false
 │   ├── bl_dgemm_util.c
 │   └── my_dgemm.c
 ├── include
