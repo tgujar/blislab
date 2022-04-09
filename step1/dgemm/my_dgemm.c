@@ -48,10 +48,19 @@
 
 void AddDot( int k, double *A, int lda, double *B, int ldb, double *result ) {
   int p;
+  register double val = *result;
   for ( p = 0; p < k; p++ ) {
-    *result += A( 0, p ) * B( p, 0 );
+    val += A( 0, p ) * B( p, 0 );
   }
+  *result = val;
 }
+
+// void AddDot( int k, double *A, int lda, double *B, int ldb, double *result ) {
+//   int p;
+//   for ( p = 0; p < k; p++ ) {
+//     *result += A( 0, p ) * B( p, 0 );
+//   }
+// }
 
 
 void AddDot_MRxNR( int k, double *A, int lda, double *B, int ldb, double *C, int ldc )
@@ -60,9 +69,7 @@ void AddDot_MRxNR( int k, double *A, int lda, double *B, int ldb, double *C, int
   int p;
   for ( jr = 0; jr < DGEMM_NR; jr++ ) {
     for ( ir = 0; ir < DGEMM_MR; ir++ ) {
-
-      AddDot( k, &A( ir, 0 ), lda, &B( 0, jr ), ldb, &C( ir, jr ) );
-
+      AddDot( k, &A( ir, 0 ), lda, &B( 0, jr ), ldb, &C( ir, jr ));
     }
   }
 }
