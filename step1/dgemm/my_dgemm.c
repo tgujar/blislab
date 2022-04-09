@@ -68,8 +68,13 @@ void AddDot_MRxNR( int k, double *A, int lda, double *B, int ldb, double *C, int
   int ir, jr;
   int p;
   for ( jr = 0; jr < DGEMM_NR; jr++ ) {
-    for ( ir = 0; ir < DGEMM_MR; ir++ ) {
-      AddDot( k, &A( ir, 0 ), lda, &B( 0, jr ), ldb, &C( ir, jr ));
+    double* cp = &C[jr * ldc];
+    for ( ir = 0; ir < DGEMM_MR; ir+=4) {
+      AddDot( k, &A( ir + 0, 0 ), lda, &B( 0, jr ), ldb, cp + 0);
+      AddDot( k, &A( ir + 1, 0 ), lda, &B( 0, jr ), ldb, cp + 1);
+      AddDot( k, &A( ir + 2, 0 ), lda, &B( 0, jr ), ldb, cp + 2);
+      AddDot( k, &A( ir + 3, 0 ), lda, &B( 0, jr ), ldb, cp + 3);
+      cp += 4;
     }
   }
 }
